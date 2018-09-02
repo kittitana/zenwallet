@@ -29,7 +29,7 @@
     "package-linux": "npm run build && build --linux",
     "package-win": "npm run build && build --win --x64",
     "postinstall-dev": "node -r babel-register internals/scripts/CheckNativeDep.js && npm run flow-typed && npm run build-dll || true && electron-builder install-app-deps && node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
-    "release": "build --publish onTagOrDraft",
+    "release": "build --publish always",
     "start": "cross-env NODE_ENV=production electron ./app/main.prod.js",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev",
     "start-renderer-dev": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack-dev-server/bin/webpack-dev-server --config webpack.config.renderer.dev.js",
@@ -46,8 +46,10 @@
     "extraResources": "node_modules/@zen/zen-node",
     "appId": "com.zenprotocol.wallet",
     "publish": {
-      "provider": "github",
-      "publishAutoUpdate": false
+      "provider": "s3",
+      "publishAutoUpdate": true,
+      "bucket": "zen-update",
+      "endpoint": "http://127.0.0.1:9000"
     },
     "dmg": {
       "contents": [
@@ -145,6 +147,8 @@
     "electron-builder": "^20.24.4",
     "electron-devtools-installer": "^2.2.3",
     "electron-rebuild": "^1.7.3",
+    "electron-log": "^2.2.16",
+    "electron-updater": "^3.1.1",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
